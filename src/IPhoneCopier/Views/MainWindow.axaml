@@ -1,0 +1,119 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:IPhoneCopier.ViewModels"
+        xmlns:m="using:IPhoneCopier.Models"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1300" d:DesignHeight="800"
+        x:Class="IPhoneCopier.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Width="1400" Height="850" MinWidth="900" MinHeight="500"
+        Title="iPhone Copier">
+
+    <Window.Resources>
+        <DataTemplate x:Key="ThumbTemplate" x:DataType="m:MediaItem">
+            <Border Width="112" Height="112" Margin="2" CornerRadius="4" ClipToBounds="True"
+                    Background="#22808080" ToolTip.Tip="{Binding Name}">
+                <Grid RowDefinitions="*,Auto">
+                    <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
+                    <TextBlock Text="{Binding Extension}" HorizontalAlignment="Center" VerticalAlignment="Center"
+                               FontSize="18" Opacity="0.5"
+                               IsVisible="{Binding Thumbnail, Converter={x:Static ObjectConverters.IsNull}}" />
+                    <TextBlock Grid.Row="1" Text="{Binding Name}" FontSize="10" Padding="3,1"
+                               TextTrimming="CharacterEllipsis" Background="#99000000" Foreground="White" />
+                </Grid>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid RowDefinitions="*,Auto" Margin="8">
+        <Grid ColumnDefinitions="3*,Auto,2*">
+
+            <!-- BRON -->
+            <Border Grid.Column="0" BorderBrush="#55808080" BorderThickness="1" CornerRadius="6" Padding="8">
+                <Grid RowDefinitions="Auto,Auto,*">
+                    <TextBlock Text="BRON  (iPhone-export met losse mapjes)" FontWeight="Bold" />
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto,Auto" Margin="0,6">
+                        <TextBox Text="{Binding SourcePath}" PlaceholderText="Pad naar bronmap" />
+                        <Button Grid.Column="1" Content="Bladeren…" Command="{Binding BrowseSourceCommand}" Margin="6,0,0,0" />
+                        <Button Grid.Column="2" Content="Scan" Command="{Binding ScanSourceCommand}" Margin="6,0,0,0" />
+                    </Grid>
+                    <Grid Grid.Row="2" ColumnDefinitions="300,6,*" RowDefinitions="Auto,*">
+                        <StackPanel Orientation="Horizontal" Spacing="6" Margin="0,0,0,4">
+                            <Button Content="Alles aan" Command="{Binding CheckAllCommand}" />
+                            <Button Content="Alles uit" Command="{Binding UncheckAllCommand}" />
+                        </StackPanel>
+                        <TextBlock Grid.Column="2" Text="{Binding SourceInfo}" Opacity="0.7" VerticalAlignment="Center" />
+                        <TreeView Grid.Row="1" ItemsSource="{Binding Roots}" SelectedItem="{Binding SelectedNode}">
+                            <TreeView.ItemTemplate>
+                                <TreeDataTemplate ItemsSource="{Binding Children}" x:DataType="m:FolderNode">
+                                    <StackPanel Orientation="Horizontal" Spacing="4">
+                                        <CheckBox IsChecked="{Binding IsChecked}" MinWidth="0" />
+                                        <TextBlock Text="{Binding Label}" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </TreeDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                        <ListBox Grid.Row="1" Grid.Column="2" x:Name="SourceList" ItemsSource="{Binding SourceItems}"
+                                 SelectionMode="Multiple,Toggle" ItemTemplate="{StaticResource ThumbTemplate}"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- MIDDEN -->
+            <StackPanel Grid.Column="1" VerticalAlignment="Center" Spacing="10" Margin="10,0" Width="150">
+                <Button HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                        Command="{Binding TransferCheckedCommand}" IsEnabled="{Binding !IsBusy}">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap">
+                        <Run Text="{Binding ActionVerb}" /><Run Text=" aangevinkte mappen →" />
+                    </TextBlock>
+                </Button>
+                <Button x:Name="TransferSelectedButton" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                        IsEnabled="{Binding !IsBusy}" Click="TransferSelected_Click">
+                    <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="Alleen geselecteerde foto's →" />
+                </Button>
+                <Button Content="Annuleren" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
+                        Command="{Binding CancelCommand}" IsEnabled="{Binding IsBusy}" />
+            </StackPanel>
+
+            <!-- DOEL -->
+            <Border Grid.Column="2" BorderBrush="#55808080" BorderThickness="1" CornerRadius="6" Padding="8">
+                <Grid RowDefinitions="Auto,Auto,Auto,*">
+                    <TextBlock Text="DOEL  (alles in één map)" FontWeight="Bold" />
+                    <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,6">
+                        <TextBox Text="{Binding DestPath}" PlaceholderText="Pad naar doelmap" />
+                        <Button Grid.Column="1" Content="Bladeren…" Command="{Binding BrowseDestCommand}" Margin="6,0,0,0" />
+                    </Grid>
+                    <TextBlock Grid.Row="2" Text="{Binding DestInfo}" Opacity="0.7" Margin="0,0,0,4" />
+                    <ListBox Grid.Row="3" ItemsSource="{Binding DestItems}" ItemTemplate="{StaticResource ThumbTemplate}"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate><WrapPanel /></ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
+                </Grid>
+            </Border>
+        </Grid>
+
+        <!-- ONDERBALK -->
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*" Margin="0,8,0,0">
+            <StackPanel Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
+                <RadioButton Content="Verplaatsen" GroupName="mode" IsChecked="{Binding IsMove}" />
+                <RadioButton Content="Kopiëren (bron blijft staan)" GroupName="mode" IsChecked="{Binding !IsMove}" />
+                <CheckBox Content="Lege mapjes verwijderen" IsChecked="{Binding DeleteEmptyFolders}" IsEnabled="{Binding IsMove}" />
+                <CheckBox Content="Identieke dubbelen overslaan" IsChecked="{Binding SkipIdentical}" />
+            </StackPanel>
+            <Grid Grid.Column="1" ColumnDefinitions="*,200" Margin="16,0,0,0">
+                <TextBlock Text="{Binding Status}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+                <ProgressBar Grid.Column="1" Value="{Binding ProgressValue}" Maximum="100" />
+            </Grid>
+        </Grid>
+    </Grid>
+</Window>
+
