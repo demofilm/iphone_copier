@@ -102,7 +102,7 @@
         </Grid>
 
         <!-- ONDERBALK -->
-        <Grid Grid.Row="1" ColumnDefinitions="Auto,*" Margin="0,8,0,0">
+        <Grid Grid.Row="1" ColumnDefinitions="Auto,*,Auto" Margin="0,8,0,0">
             <StackPanel Orientation="Horizontal" Spacing="16" VerticalAlignment="Center">
                 <RadioButton Content="Verplaatsen" GroupName="mode" IsChecked="{Binding IsMove}" />
                 <RadioButton Content="Kopiëren (bron blijft staan)" GroupName="mode" IsChecked="{Binding !IsMove}" />
@@ -113,8 +113,13 @@
                 <TextBlock Text="{Binding Status}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
                 <ProgressBar Grid.Column="1" Value="{Binding ProgressValue}" Maximum="100" />
             </Grid>
+            <StackPanel Grid.Column="2" Orientation="Horizontal" Spacing="10" Margin="16,0,0,0" VerticalAlignment="Center">
+                <TextBlock Text="Freeware - gebruik op eigen risico" Opacity="0.6" FontSize="11" VerticalAlignment="Center" />
+                <Button Content="🍺 Buy me a beer" Click="Beer_Click" />
+            </StackPanel>
         </Grid>
     </Grid>
 </Window>
+
 
 

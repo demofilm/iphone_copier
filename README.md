@@ -14,3 +14,11 @@ Visuele dual-pane browser (Avalonia 12 / .NET 9) om een gekopieerde iPhone-fotob
 dotnet run --project src/IPhoneCopier
 dotnet test
 ```
+
+## Licentie, gebruik op eigen risico
+**Freeware** - gratis te gebruiken en ongewijzigd te delen; niet verkopen/verhandelen en niet aanpassen of
+aangepaste versies verspreiden zonder toestemming. Zie [LICENSE.txt](LICENSE.txt).
+**Gebruik is op eigen risico**: de app kan bestanden verplaatsen. De maker is niet verantwoordelijk voor dataverlies of
+andere problemen. Maak altijd eerst een back-up of werk op een kopie.
+
+Bevalt het? [Buy me a beer](https://www.paypal.com/paypalme/lordleuter)

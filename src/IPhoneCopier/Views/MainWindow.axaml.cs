@@ -56,6 +56,11 @@ public partial class MainWindow : Window
             await vm.TransferItemsAsync(SourceList.SelectedItems!.OfType<MediaItem>().ToList());
     }
 
+    private async void Beer_Click(object? sender, RoutedEventArgs e)
+    {
+        try { await Launcher.LaunchUriAsync(new Uri("https://www.paypal.com/paypalme/lordleuter")); } catch { }
+    }
+
     // ---- drag & drop ----
 
     private void WireDragSource(Control c, Func<Control, PointerPressedEventArgs, List<string>?> resolve)
@@ -113,5 +118,6 @@ public partial class MainWindow : Window
         await vm.TransferPathsAsync(files);
     }
 }
+
 
 

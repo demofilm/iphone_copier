@@ -1,0 +1,32 @@
+﻿iPhone Copier - Freeware License
+Copyright (c) 2026 demofilm (LordLeuter)
+
+1. GRANT. You may download, use and copy this software free of charge, for personal
+   and commercial-internal use, and you may share the UNMODIFIED, original release
+   free of charge.
+
+2. NO SELLING OR TRADING. You may not sell, rent, lease, license for a fee, bundle with
+   a paid product, or otherwise trade this software or any part of it.
+
+3. NO MODIFICATION. You may not modify, adapt, translate, reverse engineer, decompile or
+   create derivative works of this software, and you may not distribute altered versions,
+   without prior written permission of the author. The source code is published for
+   transparency only and is not licensed for reuse.
+
+4. NO WARRANTY. THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+   OR IMPLIED, INCLUDING BUT NOT LIMITED TO MERCHANTABILITY, FITNESS FOR A PARTICULAR
+   PURPOSE AND NON-INFRINGEMENT.
+
+5. USE AT YOUR OWN RISK. This program can MOVE and DELETE files and folders. The author
+   is not liable for any loss of data, damaged files, or any other direct or indirect
+   damage or problem arising from the use of, or inability to use, this software. Always
+   work on a copy and keep a backup of your photos.
+
+6. Donations ("Buy me a beer") are voluntary, do not buy any extra rights or support,
+   and are not refundable by the author.
+
+-----------------------------------------------------------------------------------
+Samenvatting (NL): gratis te gebruiken en ongewijzigd te delen. Niet verkopen of
+verhandelen. Niet aanpassen of aangepaste versies verspreiden zonder toestemming.
+Gebruik volledig op eigen risico: de maker is niet aansprakelijk voor dataverlies of
+andere problemen. Maak altijd eerst een back-up. Bij verschil geldt de Engelse tekst.
