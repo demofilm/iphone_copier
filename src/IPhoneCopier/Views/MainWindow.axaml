@@ -45,7 +45,7 @@
                             <Button Content="Alles uit" Command="{Binding UncheckAllCommand}" />
                         </StackPanel>
                         <TextBlock Grid.Column="2" Text="{Binding SourceInfo}" Opacity="0.7" VerticalAlignment="Center" />
-                        <TreeView Grid.Row="1" ItemsSource="{Binding Roots}" SelectedItem="{Binding SelectedNode}">
+                        <TreeView x:Name="SourceTree" Grid.Row="1" ItemsSource="{Binding Roots}" SelectedItem="{Binding SelectedNode}">
                             <TreeView.ItemTemplate>
                                 <TreeDataTemplate ItemsSource="{Binding Children}" x:DataType="m:FolderNode">
                                     <StackPanel Orientation="Horizontal" Spacing="4">
@@ -83,7 +83,7 @@
             </StackPanel>
 
             <!-- DOEL -->
-            <Border Grid.Column="2" BorderBrush="#55808080" BorderThickness="1" CornerRadius="6" Padding="8">
+            <Border x:Name="DestPanel" DragDrop.AllowDrop="True" Background="Transparent" Grid.Column="2" BorderBrush="#55808080" BorderThickness="1" CornerRadius="6" Padding="8">
                 <Grid RowDefinitions="Auto,Auto,Auto,*">
                     <TextBlock Text="DOEL  (alles in één map)" FontWeight="Bold" />
                     <Grid Grid.Row="1" ColumnDefinitions="*,Auto" Margin="0,6">
@@ -116,4 +116,5 @@
         </Grid>
     </Grid>
 </Window>
+
 

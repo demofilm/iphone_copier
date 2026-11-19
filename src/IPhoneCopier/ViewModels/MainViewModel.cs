@@ -18,6 +18,7 @@ public partial class MainViewModel : ViewModelBase
     private CancellationTokenSource? _srcThumbs, _dstThumbs, _transferCts;
 
     public Func<Task<string?>>? PickFolder { get; set; }
+    public Func<string, Task<bool>>? Confirm { get; set; }
 
     public ObservableCollection<FolderNode> Roots { get; } = new();
     public ObservableCollection<MediaItem> SourceItems { get; } = new();
@@ -113,10 +114,16 @@ public partial class MainViewModel : ViewModelBase
         await TransferAsync(files, SourcePath);
     }
 
+    public Task TransferPathsAsync(List<string> files) => TransferAsync(files, SourcePath, alwaysConfirm: true);
+
+    public string DescribeTransfer(int count) =>
+        $"{ActionVerb} {count} bestand(en) naar:\n{DestPath}\n\n" +
+        (IsMove ? "De bestanden worden uit de bronmap VERPLAATST." : "De bronbestanden blijven staan (kopiëren).");
+
     public Task TransferItemsAsync(IEnumerable<MediaItem> items) =>
         TransferAsync(items.Select(i => i.Path).ToList(), SourcePath);
 
-    private async Task TransferAsync(List<string> files, string sourceRoot)
+    private async Task TransferAsync(List<string> files, string sourceRoot, bool alwaysConfirm = false)
     {
         if (IsBusy) return;
         if (string.IsNullOrWhiteSpace(DestPath)) { Status = "Kies eerst een doelmap."; return; }
@@ -125,6 +132,9 @@ public partial class MainViewModel : ViewModelBase
         if (Directory.Exists(SourcePath) &&
             string.Equals(destFull.TrimEnd('\\'), Path.GetFullPath(SourcePath).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
         { Status = "Doelmap mag niet gelijk zijn aan de bronmap."; return; }
+
+        if ((IsMove || alwaysConfirm) && Confirm != null && !await Confirm(DescribeTransfer(files.Count)))
+        { Status = "Afgebroken: niets gewijzigd."; return; }
 
         IsBusy = true;
         ProgressValue = 0;
@@ -149,3 +159,5 @@ public partial class MainViewModel : ViewModelBase
         await RefreshDestAsync();
     }
 }
+
+
